@@ -108,16 +108,60 @@ Agent-based modelling are proposed by some researchers as a powerful tool to exp
 
 \subsection{Model setup}
 
-%The main interest of this research is investigating the effectiveness of various pre-defined model input parameters on spreading and controlling infectious diseases that result while the agents are commuting from home to the workplace. This model assumes that most human interactions occur while people travel and work. Hence, the scenario is primarily about people commuting from home to their designated workplaces via different modes of transportation, closely depicting ordinary people's daily routine. Using NetLogo, the model is tested on a 2D environment where agents representing people are distributed homogeneously throughout. The simulation of this model considers several essential assumptions. The entire duration of the simulation is set to 365 days. Each day is equivalent to 24 ticks. Hence, each tick is equivalent to an hour. A single day comprises three pre-defined phases: the ‘Home-hour’, ‘Commute-hour’ and ‘Work-hour’ phases. Each phase is indicated by different colours of the patches in the simulation; orange indicates the ‘Home-hour’ phase, black for the ‘Commute-hour’ phase and cyan for the ‘Work-hour’ phase. During these phases, the movement of agents is completely randomised. No learning behaviour alternates the agents’ movement in the simulation since it would be difficult for an individual to be fully aware of another agent’s infection status. During the interaction, agents fall into one of the four states defined by the SIRV compartmental model, which this research’s ABM is based upon. The SIRV model is an extended SIR model that accounts for the vaccination of the susceptible population \cite{poonia2022enhanced}.
+%The main interest of this research is investigating the effectiveness of various pre-defined model input parameters on spreading and controlling infectious diseases that result while the agents are commuting from home to the workplace. This model assumes that most human interactions occur while people travel and work. Hence, the scenario is primarily about people commuting from home to their designated workplaces via different modes of transportation, closely depicting ordinary people's daily routine. Using NetLogo, the model is tested on a 2D environment where agents representing people are distributed homogeneously throughout. The simulation of this model considers several essential assumptions. The entire duration of the simulation is set to 365 days. Each day is equivalent to 24 ticks. Hence, each tick is equivalent to an hour. A single day comprises three pre-defined phases: the ‘Home-hour’, ‘Commute-hour’ and ‘Work-hour’ phases. Each phase is indicated by different colours of the patches in the simulation; orange indicates the ‘Home-hour’ phase, black for the ‘Commute-hour’ phase and cyan for the ‘Work-hour’ phase.
+\begin{figure}
+	\centering
+	\includegraphics[width=0.5\linewidth]{figures/ModelTransitions.png}
+	\caption{TRANSITION OF THE PHASES IN THE MODEL}
+\end{figure}
+
+%During these phases, the movement of agents is completely randomised. No learning behaviour alternates the agents’ movement in the simulation since it would be difficult for an individual to be fully aware of another agent’s infection status. During the interaction, agents fall into one of the four states defined by the SIRV compartmental model, which this research’s ABM is based upon. The SIRV model is an extended SIR model that accounts for the vaccination of the susceptible population \cite{poonia2022enhanced}.
+\begin{figure}
+	\centering
+	\includegraphics[width=0.5\linewidth]{figures/AgentStates.png}	
+	\caption{Agent states in the model\label{fig:agentstates}}
+\end{figure}
+
 %Agents can interact with each other based on the state in which they fall. However, the interaction and infection processes are set to occur between the agents within the same patch only. The infection does not happen during the 'Home-hour' phase as this model does not consider social activities or household infections. During the 'Commute-hour' phase, an infected agent can only infect the susceptible agents that use the same mode of transportation as itself. It would be logically sensible that an infected agent commuting via train can only interact with and infect other susceptible agents commuting via the same mode of transportation. This same logic applies during the 'Work-hour' phase, where an infected agent can only interact with and infect other susceptible agents working in the same company. The following table lists all the modes of transportation and the names of companies defined in our model.
+Modes
+of Transportation Bus
+Tube
+Train
+Walk
+Car
+Big-sized
+Companies
+Apple
+Google
+Amazon
+Facebook
+Samsung
+Toyota
+Coca-Cola
+Mid-sized Companies
+Small-sized
+Companies
+    Yahoo NHS
+    Dell
+Zara GAP
+Sainsbury Tesla H\&M
 [Table 1]
 
 %The actual company names are used here to assign each agent’s company variable. There are total of fifteen companies which are randomly categorised into small, mid, and big-sized companies. The central assumption is that the bigger the company size, the more the human interactions involved. Hence, the agents working in a big-sized companies are more likely to get infected than the agents working in mid and small-sized companies.
 
-%At the beginning of the simulation, 1500 susceptible agents are randomly distributed in the simulation environment. The variable values for the agents, such as the transportation and company, are randomly assigned during the setup stage. An infected agent is then constantly introduced at a random location for the simulation's first month (30 days). Every day, a random percentage value from zero to one percent of the total population gets replaced. This is based on the assumption that the population is dynamic. A certain number of people leave the area, and others come to stay in the area. Hence, the total population is not fixed to the initial population throughout the simulation.
+At the beginning of the simulation, 1500 susceptible agents are randomly distributed in the simulation environment. The variable values for the agents, such as the transportation and company, are randomly assigned during the setup stage. An infected agent is then constantly introduced at a random location for the simulation's first month (30 days). Every day, a random percentage value from zero to one percent of the total population gets replaced. This is based on the assumption that the population is dynamic. A certain number of people leave the area, and others come to stay in the area. Hence, the total population is not fixed to the initial population throughout the simulation.
 
 
 \subsection{Model parametrisation}
+
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\linewidth]{figures/ModelVariables.png}
+	\caption{Model variables \label{fig:modelvars}}	
+\end{figure}
+
+
 
 \subsubsection{Global variables}
 
@@ -149,8 +193,10 @@ Infection Risk Rate
 10 %
 TABLE 4. RISK RATES FOR COMBINATIONS OF THE MASK AND CARDIO VARIABLES
 
+
+
 [Patch variables]
-TABLE 4. RISK RATES FOR COMBINATIONS OF THE MASK AND CARDIO VARIABLES
+
 • sick population
 • total population
 For each patch, the values of the sick and the total population get updated constantly. If the value of the sick population gets bigger than zero, the infection process between the agents within that specific patch gets triggered.
@@ -158,12 +204,12 @@ For each patch, the values of the sick and the total population get updated cons
 
 \subsection{Model parameters}
 
-\begin{itemise}
+\begin{itemize}
 	\item Infectious period, ranging from 2 to 4 weeks; the longevity of the infectious period of an agent is believed to play an essential role in the spread of diseases because the longer the infected agent stays contagious, the more the chance of infection during an extended amount of time \cite{wilkinson2018impact}.
 	\item Immunity period, ranging from 9 to 11 months. This is selected as one of the model’s input parameters because it is believed to play a vital role in protecting the agents from infection \cite{reyes2016modeling}. Hence, we are interested to know to what extent the immunity period significantly affects the spread of diseases.
 	\item Vaccination rate: as discussed in the literature review, vaccines are the most effective preventive measure which can trigger a biological immune response to fight disease-causing organisms. The value ranges from 0 to 0.5 \%, meaning from 0 to 0.5 \% of the susceptible population is set to be vaccinated daily. A high vaccination rate is strongly believed to be the key to the successful control of epidemics; hence, finding out the impacts of different vaccination rates on the overall infection process would be meaningful.
 	\item Social distancing level: a certain level of social distancing is being applied by governments worldwide, hoping to stop the spread of diseases like COVID-19. However, the effect of social distancing is not yet well known. Due to this, it would be an interesting experiment to find out the effectiveness of such measures on disease transmission dynamics. The level of social distancing ranges from 1 to 3. Each level refers to a percentage value that reduces the contact rate by 5. Hence, the actual percentage value of the social distancing ranges from 5 to 15 percent. The higher the intensity of social distancing, the lesser the chance people contact each other.
-\end{itemise}
+\end{itemize}
 
 
 
@@ -180,30 +226,16 @@ For demonstration purposes, we calculate,
 • The infection rate for agents who work in the 'Apple' company during the 'Work-hour'
 phase.
 
-The calculations for the rest of the infection rates follow the same process illustrated by the demonstration. Hence, this research demonstrates one exemplary calculation for each phase.
-To calculate the infection rate among the agents who commute by train in each patch,
-Let, the number of sick agents whose mode of transportation is train, 𝑆𝑡
-Let, the total number of agents whose mode of transportation is train, 𝑃 𝑡
-Let, the contact rate of the train, 𝐶𝑡
-Let, the level of the social distancing, 𝐷
-Let, the infection risk rate, 𝑅
-Toobtaintheproportionalvalueof𝑆 to𝑃, 𝑡𝑡
-𝑀𝑡 = 𝑆𝑡 𝑃𝑡
-To obtain the infection rate of train 𝐼𝑡,
-𝐼𝑡 = 𝑅(𝑀𝑡𝐶𝑡 − 0.05𝐷)
+%The calculations for the rest of the infection rates follow the same process illustrated by the demonstration. Hence, this research demonstrates one exemplary calculation for each phase. To calculate the infection rate among the agents who commute by train in each patch, Let, the number of sick agents whose mode of transportation is train, 𝑆𝑡 Let, the total number of agents whose mode of transportation is train, 𝑃 𝑡 Let, the contact rate of the train, 𝐶𝑡 Let, the level of the social distancing, 𝐷 Let, the infection risk rate, 𝑅 Toobtaintheproportionalvalueof𝑆 to𝑃, 𝑡𝑡 𝑀𝑡 = 𝑆𝑡 𝑃𝑡 To obtain the infection rate of train 𝐼𝑡, 𝐼𝑡 = 𝑅(𝑀𝑡𝐶𝑡 − 0.05𝐷)
+%To calculate the infection rate among the agents who work in Apple in each patch, Let, the number of sick agents who work in Apple, 𝑆𝑎 Let, the total number of agents who work in Apple, 𝑃 𝑎 Let, the contact rate of big-sized company, 𝐶𝑏 Let, the level of the social distancing, 𝐷 Let, the infection risk rate, 𝑅 To obtain the proportional value of 𝑆 to 𝑃 , 𝑎𝑎 𝑀𝑎 = 𝑆𝑎 𝑃𝑎 To obtain the infection rate of Apple 𝐼𝑎, 𝐼𝑎 = 𝑅(𝑀𝑎𝐶𝑏 − 0.05𝐷) A counter variable keeps a time (tick) record as soon as an agent becomes infected. The value of the counter variable is then compared with the model’s input parameter called the 'infectious- period'. Once the counter exceeds the value of this parameter, the infected agent becomes immune. The counter variable gets reset to zero whenever an agent switches its state. The counter variable keeps a record of time (tick) again as soon as the agent becomes immune, and if the counter exceeds the value of the 'immunity-period', which is also one of the model’s input parameters, the agent becomes susceptible. The same dynamic applies when a susceptible agent becomes vaccinated. The overall dynamic of the model is further described in the diagram below and the entirety of the codes can be seen in Appendix D.
 
-To calculate the infection rate among the agents who work in Apple in each patch,
-Let, the number of sick agents who work in Apple, 𝑆𝑎
-Let, the total number of agents who work in Apple, 𝑃 𝑎
-Let, the contact rate of big-sized company, 𝐶𝑏
-Let, the level of the social distancing, 𝐷
-Let, the infection risk rate, 𝑅
-To obtain the proportional value of 𝑆 to 𝑃 , 𝑎𝑎
-𝑀𝑎 = 𝑆𝑎 𝑃𝑎
-To obtain the infection rate of Apple 𝐼𝑎,
-𝐼𝑎 = 𝑅(𝑀𝑎𝐶𝑏 − 0.05𝐷)
-A counter variable keeps a time (tick) record as soon as an agent becomes infected. The value of the counter variable is then compared with the model’s input parameter called the 'infectious- period'. Once the counter exceeds the value of this parameter, the infected agent becomes immune. The counter variable gets reset to zero whenever an agent switches its state.
-The counter variable keeps a record of time (tick) again as soon as the agent becomes immune, and if the counter exceeds the value of the 'immunity-period', which is also one of the model’s input parameters, the agent becomes susceptible. The same dynamic applies when a susceptible agent becomes vaccinated. The overall dynamic of the model is further described in the diagram below and the entirety of the codes can be seen in Appendix D.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\linewidth]{figures/modelDynamics.png}
+	\caption{DESCRIPTION OF THE MODEL DYNAMICS\label{fig:modeldyn}}
+\end{figure}
+
 
 \subsection{Model implementation and exploration}
 
@@ -222,68 +254,52 @@ social-distancing-levels
 Value Range
 2, 3, 4 (weeks)
 4, 5, 6 (months)
-0, 0.25, 0.5 (%)
+0, 0.25, 0.5 (\%)
 1, 2, 3 (levels)
         TABLE 5. PRE-DEFINED VALUES FOR EACH MODEL INPUTS
         
         
         This results in 81 different combinations of the input parameter values for a grid sampling. The model is set to run over 125 times for every combination of the input parameter values, and the output parameters’ average values are obtained at the end.
-With the result, the average proportional numbers of sick agents are aggregated based on each value of the input parameters, as shown in Table 5 above, to explore the input space of the model. The statistical distributions of the results are presented in a box & whisker plot.
+With the result, the average proportional numbers of sick agents are aggregated based on each value of the input parameters, as shown in Table 5 above, to explore the input space of the model. The statistical distributions of the results are presented in a box \& whisker plot.
 
 
-3.6 Saltelli Sensitivity Analysis
-Saltelli is a statistical method for global sensitivity analysis which estimates sensitivity indices based on relative variances (Stastistical Sensitivity Analysis, 2022). The method decomposes the variances of the model’s output parameters into fractions that can be attributed to sets of input parameters. For instance, given a model that consists of two input and one output parameters, one might find that 50 percent of the output parameter variance is due to the variance in the first input, 30 percent to the variance in the second, and 20 percent due to the interactions between the two. These percentage values are indicative of the measures of sensitivity. Interpreting the results obtained from this analysis provides a better understanding of the relationship between the input and output parameters a model.
-There are two types of Sobol indices: the first-order Sobol sensitivity index and the total-order Sobol sensitivity index. The first one measures the direct effect each input parameter has on the variance of the model:
-𝑉(𝐸 (𝑌|𝑋)) 𝑆𝑖=𝑋𝑖𝑋~𝑖 𝑖
-𝑉(𝑌)
- Where 𝐸𝑋~𝑖(𝑌|𝑋𝑖) indicates the expected value of the output 𝑌 when parameter 𝑋𝑖 is fixed. 𝑉 (𝐸 (𝑌|𝑋 )) measures the first-order index of 𝑋 on the model output in terms of variance
-𝑋𝑖 𝑋~𝑖 𝑖 𝑖
-and is divided by the total variance, 𝑉(𝑌) for normalisation. Therefore, the result of the first-
-order Sobol sensitivity index shows the expected reduction in the variance of the model when the parameter 𝑋𝑖 is fixed. One thing to note is that the sum of the first-order Sobol sensitivity index cannot be bigger than 1.
-
-The total-order index, 𝑆𝑇𝑖, includes the first-order index and sensitivity due to all interactions between the given parameter, 𝑋𝑖, and other parameters of the model.
-𝑉 (𝐸 (𝑌|𝑋 )) 𝑋~𝑖 𝑋𝑖 ~𝑖
-𝑉(𝑌)
-Where, 𝑉 (𝐸 (𝑌|𝑋 )) refers to the first-order index of 𝑋 hence, 𝑉(𝑌) minus 𝑋~𝑖 𝑋𝑖 ~𝑖 ~𝑖
-𝑉 (𝐸 (𝑌|𝑋 )) should give the value for the total-order index of 𝑋 . 𝑋~𝑖 𝑋𝑖 ~𝑖 𝑖
-The Saltelli sensitivity analysis is available as the analytical tool on OpenMOLE. The programming script requires assigning the model’s input and output parameters with the number of samples defining the total model run. In this research, the number of samples is set to 60,000 for validation of the result.
 
 
-3.7 NSGAII
-In attempting to control the spread of epidemics, many problems involve multiple objectives which cannot simply be described as the more, the better or the lesser, the better; instead, each objective has an ideal target value, and the main goal is to reach the targeted value as close as possible. We have defined the model's four main input parameters for our research: the vaccination rate, infectious, immunity periods and social distancing. Based on one of the research questions, the goal is to find the optimal set of input parameters that can potentially suppress the spread of infectious diseases during the first year of the outbreak. To optimise the values of the input parameters, we define two objectives that are expected to be minimised. Firstly, we expect the proportional number of sick agents to be optimised, which is directly linked to the main interest of our research question. Secondly, we expect the proportional number of vaccinated agents to be optimised. Vaccination is a primary preventive measure that plays a vital role in successfully controlling the spread of diseases and even has the potential to achieve herd immunity, while other measures such as social distancing can only slow down the process of disease spreading instead of stopping them (Bicher et al., 2022). However, vaccines are not always available for multiple reasons, and one of the possible reasons might be due to the high manufacturing and transportation costs (Plotkin et al., 2017). This is where people like decision- makers often face a dilemma because attempting to control epidemics usually costs money and
-𝑆𝑇𝑖 = 1 −
- 34
-the best option which they might have at this point is to find a good balance between the usage of vaccines, which does not go over the budget, and the proportional number of sick agents. The way to find the results that provide a good approximation of the Pareto frontier with acceptable trade-offs between the identified objectives is by using the NSGAII. The NSGAII is a commonly used type of multi-objective optimisation algorithm that consists of several unique characteristics. These characteristics include a fast non-dominated sorting, crowding distance assignment and sorting procedure (Deb et al., 2002). The first step is selecting the individuals that lie on the front line. There will be the case where a front needs to be split since not all individuals are supposed to survive. In splitting the individuals, solutions are chosen based on crowding distance.
- FIGURE 5. THE GENERAL STRUCTURE OF NSGAII (JULIAN, 2020)
-The crowding distance approach used in this process is the Manhattan Distance, which refers to a distance metric between two points in N-dimensional vector space (Julian, 2020). However, the extreme points are significant points in NSGAII, which are kept every generation and automatically assigned a crowding infinity distance.
- FIGURE 6. CROWDING DISTANCE SORTING (JULIAN, 2020)
-This algorithm uses the binary tournament mating selection method to increase the selection process’s accuracy (Julian, 2020). Each solution is compared based on its assigned rank and
-35
-
-crowding distance. That is, the solution with the lower rank and is in a lesser crowded region is preferred between the two solutions. After this process, we obtain the Pareto front, the set of non-dominated solutions, where each objective is considered equally good.
 
 
 \section{Results}
 
 
-This chapter presents the results obtained using the analytical methods described in the previous chapter.
-Firstly, statistical distributions of the model’s output parameters are presented with histograms and box & whisker plots. A QQ plot is also used to describe the shapes of the output distributions relative to the normal distribution.
-Secondly, the combinations of the input parameter value that produce the highest and the lowest proportional numbers of sick agents are identified by re-ordering the table rows. Then, the proportional numbers of sick agents that are grouped by each value of the input parameters are presented on a box & whisker plot.
-Thirdly, we use the correlation matrix to illustrate the relationship between the model’s input and output parameters. Linear regression analysis is supplemented to summarise the relationship between the model parameters.
-Fourthly, a random forest is trained with the data obtained from the LHS (refer to the first step of the analysis), and the predicted data is compared with the actual data.
-Lastly, the results obtained by the Saltelli global sensitivity analysis are presented in a table, and the Pareto Front, which NSGAII obtains, is presented on scatter plots.
-
+%This chapter presents the results obtained using the analytical methods described in the previous chapter. Firstly, statistical distributions of the model’s output parameters are presented with histograms and box & whisker plots. A QQ plot is also used to describe the shapes of the output distributions relative to the normal distribution. Secondly, the combinations of the input parameter value that produce the highest and the lowest proportional numbers of sick agents are identified by re-ordering the table rows. Then, the proportional numbers of sick agents that are grouped by each value of the input parameters are presented on a box & whisker plot. Thirdly, we use the correlation matrix to illustrate the relationship between the model’s input and output parameters. Linear regression analysis is supplemented to summarise the relationship between the model parameters. Fourthly, a random forest is trained with the data obtained from the LHS (refer to the first step of the analysis), and the predicted data is compared with the actual data. Lastly, the results obtained by the Saltelli global sensitivity analysis are presented in a table, and the Pareto Front, which NSGAII obtains, is presented on scatter plots.
+We describe now numerical results obtained through the extensive exploration with the OpenMOLE platform.
 
 
 \subsection{Statistical distribution of indicators}
 
-The LHS (Latin hypercube Sampling) method was used to explore the input space of the model. A total of 10,000 samples were run during the process, as shown in Figure 7.
+The LHS (Latin hypercube Sampling) method was used to explore the input space of the model. A total of 10,000 samples were run during the process.
 
-According to the execution time shown in figure 8, the execution time is 4 days and 4 hours. 4 days 4 hours
+According to the execution time, the execution time is 4 days and 4 hours. 4 days 4 hours
 %= 4.16 days 4.16 days * 24 hours = 99.84 hours 99.84 hours * 60 minutes = 5,990.4 minutes
 
-FIGURE 9. HISTOGRAMS OF THE MODEL OUTPUTS
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{figures/histograms.png}
+	\caption{HISTOGRAMS OF THE MODEL OUTPUTS\label{fig:histograms}}
+\end{figure}
+
 The histograms in Figure 9 illustrate the four different output parameters of the model. The histograms in the upper row comprise the ‘ProportionSick’ and the ‘ProportionImmune’ histograms, which appear symmetrical, but the skewness values indicate the traits of negative skewness on each histogram plot. Both kurtosis values are negative, suggesting that the distributions are thin-tailed. From this finding, we can assume that they generally follow characteristics of the platykurtic distribution. The ‘ProportionSusceptible’ and the ‘ProportionVaccinated’ histograms in the lower row appear negatively and positively skewed, respectively. The ‘ProportionSusceptible’ histogram is highly skewed to the left, which is indicated by the skewness value lesser than -1, while the ‘ProportionVaccinated’ histogram appears moderately skewed to the right as its skewness value indicates slightly lesser than +1. Furthermore, the kurtosis values of the two histograms are positive, which indicates that they both have heavier tails and are likely to follow the shape of the leptokurtic distribution.
+
+
+% Figure 10 : qq plots
+% The QQ plots shown in Figure 10 compare statistical distributions of the output parameters of the model relative to normal distribution. The shape of the ‘ProportionSick’ distribution closely follows the normal distribution but gets steeper towards the right. The ‘ProportionImmune’ distribution resembles the 'S-shaped trajectory of the data points. This implies that the distribution has thinner tails on both sides, shaping the distribution narrower compared to the normal distribution. The ‘ProportionSusceptible’ and ‘ProportionVaccianted’ data points resemble concave downward and upward shapes relative to the normal distribution line, respectively. This implies that the former distribution is negatively skewed, and the latter is positively skewed.
+
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{figures/agentTypeDistrib.png}
+	\caption{BOX PLOTS OF THE MODEL OUTPUTS\label{fig:agenttypedistrib}}
+\end{figure}
+
 
 The boxplots presented in Figure 11 show different data ranges and medians of the four different output parameters of the model. The boxplot representing the ‘ProportionImmune’ appears to have the highest median among the groups, followed by the ‘ProportionSick’, ‘ProportionSusceptible’ and ‘ProportionVaccinated’, respectively. Outliers in the boxplots are present regarding the ‘ProportionSusceptible’ and ‘ProportionVaccinated’. Based on the histograms shown in Figure 9, these distributions have positive kurtosis values and are disproportionally distributed, indicating low standard deviation; hence, high chance of producing outliers.
 
@@ -291,24 +307,37 @@ The boxplots presented in Figure 11 show different data ranges and medians of th
 %4.2 Exploration of the Model’s Input Parameters via Direct Sampling
 \subsection{Grid exploration}
 
-The total combination of the model's input parameters is 81, as mentioned in the methodology section. The model run for each combination of the inputs is set to 125 times. This results in a total model run of 10,125, as shown in Figure 12.
-According to Figure 13, the total execution time is 4 days and 5 hours.
+The total combination of the model's input parameters is 81, as mentioned in the methodology section. The model run for each combination of the inputs is set to 125 times. This results in a total model run of 10,125, for a total execution time of 4 days and 5 hours.
 %4 days 5 hours = 4.21 days 4.21 days * 24 hours = 101.04 hours 101.04 hours * 60 minutes = 6,062.4 minutes
 
-Table 6 presents the combinations of the input parameter values relative to the five lowest values of the ‘ProportionSick’. The lowest value of the ‘ProportionSick’ among the 10,000 samples is 0.2779. The combination of the input parameter values that generated the lowest ‘ProportionSick’ is shown in the first row of the table. The ‘infectiousPeriod’ and the ‘vaccinationRate’ values remained constant at 2 (weeks) and 0.005 (0.5%) respectively, while the ‘immunityPeriod’ and the ‘socialDistancingLevels’ varied throughout the table.
+Table 6 presents the combinations of the input parameter values relative to the five lowest values of the ‘ProportionSick’. The lowest value of the ‘ProportionSick’ among the 10,000 samples is 0.2779. The combination of the input parameter values that generated the lowest ‘ProportionSick’ is shown in the first row of the table. The ‘infectiousPeriod’ and the ‘vaccinationRate’ values remained constant at 2 (weeks) and 0.005 (0.5\%) respectively, while the ‘immunityPeriod’ and the ‘socialDistancingLevels’ varied throughout the table.
 
-Table 7 presents the combinations of the input parameter values relative to the five highest values of the ‘ProportionSick’. According to this table, the highest value of the ‘ProportionSick’ among the 10,000 samples is 0.3280. The ‘infectiousPeriod’ and the ‘vaccinationRate’ remained constant at 4 (weeks) and 0.0 (%), respectively, while the rest of the input parameter values varied throughout the table.
+Table 7 presents the combinations of the input parameter values relative to the five highest values of the ‘ProportionSick’. According to this table, the highest value of the ‘ProportionSick’ among the 10,000 samples is 0.3280. The ‘infectiousPeriod’ and the ‘vaccinationRate’ remained constant at 4 (weeks) and 0.0 (\%), respectively, while the rest of the input parameter values varied throughout the table.
 
 
-FIGURE 14. BOX PLOTS SHOWING AGGREGATE VALUES OF THE MODEL OUTPUTS BASED ON EACH VALUE OF THE MODEL INPUTS
+
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{figures/boxplots.png}
+	\caption{BOX PLOTS SHOWING AGGREGATE VALUES OF THE MODEL OUTPUTS BASED ON EACH VALUE OF THE MODEL INPUTS\label{fig:boxplots}}
+\end{figure}
+
+
 The box plots in figure 14 show statistical distributions of the ‘ProportionSick’, which are grouped by each input parameter value of the model. The range of each input parameter is indicated on the horizontal axis of the graphs.
 The first graph represents the grouped values of the ‘ProportionSick’ by the values of the ‘infectiousPeriod’. It indicates that a unit increase in the infectiousPeriod’ value increases the boxplot’s overall median and max values.
 The boxplots related to the ‘immunityPeriod’ and the ‘socialDistancingLevels’ show a marginal decrease in the median of the boxplots per unit increase.
 The last graph is related to the ‘vaccinationRate’, which indicates that a 0.0025 (0.25 \%) increase in the rate decreases the boxplot’s overall values. It indicates that vaccines have an apparent effect on successfully controlling the spread of diseases.
 
 
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{figures/correlations.png}
+	\caption{CORRELATION MATRIX OF THE MODEL PARAMETERS\label{fig:correlations}}
+\end{figure}
 
-FIGURE 15. CORRELATION MATRIX OF THE MODEL PARAMETERS
+
+
 %The correlation matrix illustrated in Figure 15 displays the correlation between different model parameters. The colour bar on the right side of the matrix visualises the intensity of the correlations between the parameters. The brighter the yellow, the higher the positive correlation and the darker the purple, the higher the negative correlation. The ‘ProportionSick’ and the ‘infectiousPeriod’ appear to be highly correlated. According to the box plots shown in Figure 14, every unit increase in the ‘infectiousPeriod’ also increased the ‘ProportionSick’ values. The rest of the input parameters, including the ‘immunityPeriod’, ‘socialDistancingLevels’ and ‘vaccinationRate’ are negatively correlated with the ‘ProportionSick’ at different intensity levels.
 
 %The dependent variable of the regression summary shown in Figure 16 is the ‘ProportionSick’. All four input parameters of the model indicate significant p-values of zero, and the R-squared value is 93.7\%. The highest and the only positive coefficient among the four input parameters is between the ‘ProportionSick’ and the ‘infectiousPeriod’ by 0.0115. It indicates an increase in ‘ProportionSick’ by 0.0115 for every unit increase in the value of the ‘infectiousPeriod’. On the other hand, the coefficient values of the ‘immunityPeriod’, ‘socialDistancingLevels’ and ‘vaccinationRate’ are all negative by -0.0033, -0.0023 and -0.0041, respectively.
@@ -324,11 +353,15 @@ The random forest with the 900 decision trees was developed by fitting the train
 
 The predicted values of the 'ProportionSick' via the random forest are compared with the actual values in a table. The comparison between the statistical distributions of those two types of values is then visualised on a density plot.
 
-The performance metrics in table 8 compare the predicted values to the actual values for the testing dataset. The first value refers to the MAE, which tells us how big of an error we can expect from the forecast on average (Error Metrics: How to Evaluate Your Forecasting Models, no date). The value we have here is merely 0.001, which implies that the average errors between the predicted and actual values are marginal; hence, the predictions are considered highly accurate. Moving on to the MAPE, the value of 0.363 indicates that, on average, the forecast is off by 0.363%. This means that the accuracy of the forecast is as high as 99.637%. Lastly, the value of the RMSE is also 0.001, which indicates that the difference between the predicted and actual values is marginal.
+The performance metrics in table 8 compare the predicted values to the actual values for the testing dataset. The first value refers to the MAE, which tells us how big of an error we can expect from the forecast on average (Error Metrics: How to Evaluate Your Forecasting Models, no date). The value we have here is merely 0.001, which implies that the average errors between the predicted and actual values are marginal; hence, the predictions are considered highly accurate. Moving on to the MAPE, the value of 0.363 indicates that, on average, the forecast is off by 0.363\%. This means that the accuracy of the forecast is as high as 99.637\%. Lastly, the value of the RMSE is also 0.001, which indicates that the difference between the predicted and actual values is marginal.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.5\linewidth]{figures/randomForest.png}
+	\caption{FEATURE IMPORTANCE OF THE INPUT PARAMETERS GENERATED BY RANDOM FOREST MODEL\label{fig:randomForest}}
+\end{figure}
 
 
-
-FIGURE 20. FEATURE IMPORTANCE OF THE INPUT PARAMETERS GENERATED BY RANDOM FOREST MODEL
 The random forest model has quantified the importance of the model’s input parameters. The ‘infectiousPeriod’ is by far the most significant input parameter of the model, with a value of approximately 0.75. Followed by the ‘vaccinationRate’ with a value of slightly over 0.1. The ‘immunityPeriod’ and the ‘socialDistancingLevels’ had an importance rate below 0.1, which were not as significant as the previous two.
 
 
@@ -336,11 +369,30 @@ The random forest model has quantified the importance of the model’s input par
 \subsection{Global sensitivity analysis}
 
 
+%3.6 Saltelli Sensitivity Analysis
+
+%Saltelli is a statistical method for global sensitivity analysis which estimates sensitivity indices based on relative variances (Stastistical Sensitivity Analysis, 2022). The method decomposes the variances of the model’s output parameters into fractions that can be attributed to sets of input parameters. For instance, given a model that consists of two input and one output parameters, one might find that 50 percent of the output parameter variance is due to the variance in the first input, 30 percent to the variance in the second, and 20 percent due to the interactions between the two. These percentage values are indicative of the measures of sensitivity. Interpreting the results obtained from this analysis provides a better understanding of the relationship between the input and output parameters a model.
+%There are two types of Sobol indices: the first-order Sobol sensitivity index and the total-order Sobol sensitivity index. The first one measures the direct effect each input parameter has on the variance of the model:
+%𝑉(𝐸 (𝑌|𝑋)) 𝑆𝑖=𝑋𝑖𝑋~𝑖 𝑖 𝑉(𝑌)
+% Where 𝐸𝑋~𝑖(𝑌|𝑋𝑖) indicates the expected value of the output 𝑌 when parameter 𝑋𝑖 is fixed. 𝑉 (𝐸 (𝑌|𝑋 )) measures the first-order index of 𝑋 on the model output in terms of variance 𝑋𝑖 𝑋~𝑖 𝑖 𝑖
+%and is divided by the total variance, 𝑉(𝑌) for normalisation. Therefore, the result of the first-
+%order Sobol sensitivity index shows the expected reduction in the variance of the model when the parameter 𝑋𝑖 is fixed. One thing to note is that the sum of the first-order Sobol sensitivity index cannot be bigger than 1.
+
+%The total-order index, 𝑆𝑇𝑖, includes the first-order index and sensitivity due to all interactions between the given parameter, 𝑋𝑖, and other parameters of the model. 𝑉 (𝐸 (𝑌|𝑋 )) 𝑋~𝑖 𝑋𝑖 ~𝑖 𝑉(𝑌) Where, 𝑉 (𝐸 (𝑌|𝑋 )) refers to the first-order index of 𝑋 hence, 𝑉(𝑌) minus 𝑋~𝑖 𝑋𝑖 ~𝑖 ~𝑖 𝑉 (𝐸 (𝑌|𝑋 )) should give the value for the total-order index of 𝑋 . 𝑋~𝑖 𝑋𝑖 ~𝑖 𝑖 The Saltelli sensitivity analysis is available as the analytical tool on OpenMOLE. The programming script requires assigning the model’s input and output parameters with the number of samples defining the total model run. In this research, the number of samples is set to 60,000 for validation of the result.
+
+
 In order to generate an accurate result for the sensitivity analysis, a total of 60,000 samples were run, as shown in figure 21.
 25 days 7 hours = 25.29 days
 
-Outputs infectiousPeriodimmunityPeriod vaccinationRate socialDistancingLevelsProportionImmune0.720.3330.6650.7ProportionSick 0.692 0.09 0.365 0.143 ProportionSusceptible 0.341 0.066 0.92 0.277
-TABLE 9. TOTAL-ORDER INDICES
+\begin{table}
+\caption{Saltelli total order indices}
+\begin{tabular}{|c|c|c|c|c|}
+Outputs & infectiousPeriod & immunityPeriod & vaccinationRate & socialDistancingLevels\\ProportionImmune & 0.72 & 0.333 & 0.665 & 0.7\\ProportionSick & 0.692 & 0.09 & 0.365 & 0.143\\
+ProportionVaccinated & 0.516 & 0.319 & 0.587 & 0.337\\
+ProportionSusceptible & 0.341 & 0.066 & 0.92 & 0.277\\
+\end{tabular}
+\end{table}
+
 The total-order indices shown above indicate that the ‘infectiousPeriod’ has the most significant impact on the values of the ‘ProportionSick’ followed by the ‘vaccinationRate’, ‘socialDistancingLevels’ and ‘immunityPeriod’ respectively.
 
 
@@ -349,13 +401,29 @@ The total-order indices shown above indicate that the ‘infectiousPeriod’ has
 %4.5 NSGAII Results
 \subsection{Multi-objective model optimisation}
 
+In attempting to control the spread of epidemics, many problems involve multiple objectives which cannot simply be described as the more, the better or the lesser, the better; instead, each objective has an ideal target value, and the main goal is to reach the targeted value as close as possible. We have defined the model's four main input parameters for our research: the vaccination rate, infectious, immunity periods and social distancing. Based on one of the research questions, the goal is to find the optimal set of input parameters that can potentially suppress the spread of infectious diseases during the first year of the outbreak. To optimise the values of the input parameters, we define two objectives that are expected to be minimised. Firstly, we expect the proportional number of sick agents to be optimised, which is directly linked to the main interest of our research question. Secondly, we expect the proportional number of vaccinated agents to be optimised. Vaccination is a primary preventive measure that plays a vital role in successfully controlling the spread of diseases and even has the potential to achieve herd immunity, while other measures such as social distancing can only slow down the process of disease spreading instead of stopping them \cite{bicher2022model}. However, vaccines are not always available for multiple reasons, and one of the possible reasons might be due to the high manufacturing and transportation costs \cite{plotkin2017complexity}. This is where people like decision- makers often face a dilemma because attempting to control epidemics usually costs money and the best option which they might have at this point is to find a good balance between the usage of vaccines, which does not go over the budget, and the proportional number of sick agents.
+
+The way to find the results that provide a good approximation of the Pareto frontier with acceptable trade-offs between the identified objectives is by using the NSGAII. The NSGAII is a commonly used type of multi-objective optimisation algorithm that consists of several unique characteristics. These characteristics include a fast non-dominated sorting, crowding distance assignment and sorting procedure \cite{deb2002fast}.
 
 The Pareto Front consisting of non-dominated solutions relative to the ‘ProportionSick’ and ‘ProportionVaccinated’ is drawn after running a total of 10,000 samples.
 3 days 19 hours = 3.79 days
 
 
-FIGURE 25. THE PARETO FRONT OF THE PROPORTIONSICK VS. VACCINATIONRATE
-The Pareto Front shown in Figure 25 illustrates the optimal solution set of the ‘ProportionSick’ and the ‘vaccinationRate’ as two objectives. The value of the ‘ProportionSick’ appears to decrease rapidly as the value of the ‘vaccinationRate’ increases. The slope of the line is generally steep throughout the graph. Plus, the difference between the values of the ‘ProportionSick’ with and without the vaccination is clear.
+
+
+\begin{figure}
+	\includegraphics[width=\linewidth]{figures/pareto2.png}
+	\caption{THE PARETO FRONT OF THE PROPORTIONSICK VS. VACCINATIONRATE\label{fig:pareto}}	
+\end{figure}
+
+The Pareto Front shown in Fig.~\ref{fig:pareto} illustrates the optimal solution set of the ‘ProportionSick’ and the ‘vaccinationRate’ as two objectives. The value of the ‘ProportionSick’ appears to decrease rapidly as the value of the ‘vaccinationRate’ increases. The slope of the line is generally steep throughout the graph. Plus, the difference between the values of the ‘ProportionSick’ with and without the vaccination is clear.
+
+
+\begin{figure}
+	\includegraphics[width=\linewidth]{figures/pareto2.png}
+	\caption{THE PARETO FRONT OF THE PROPORTIONSICK VS. SOCIALDISTANCINGLEVELS\label{fig:pareto2}}	
+\end{figure}
+
 
 
 The Pareto Front, visualised in figure 26, is formed with the optimal values of the ‘ProportionSick’ and the ‘socialDistancingLevels’ as two objectives. It indicates a clear sign of a decrease in the value of the ‘Proportionsick’ as the value of the ‘socialDistancingLevels’ increases.
@@ -364,7 +432,7 @@ The Pareto Front, visualised in figure 26, is formed with the optimal values of 
 \section{Discussion}
 
 Overall, the spread of infection mainly depends on the longevity of the infectious period, according to the result obtained by the OLS regression analysis summary and the feature importance test in Figure 16 and 20, respectively. The longevity of the infectious period plays a vital role in disease transmission because a more extended infectious period allows an infected agent to interact with a more significant number of susceptible agents for an extended time. For example, an infected agent who is infectious for a single day is unlikely to infect a more significant number of susceptible agents than an infected agent who is infectious for a week. A more extended infectious period is, therefore, a dangerous factor that may rapidly increase the chances of infections, often creating a mass infection wave.
-The vaccination rate is also a critical input parameter of the model that plays a vital role in controlling the spread of diseases because the vaccine is a significant source of protective measures that can effectively stop viruses from transmitting one agent to another (Storlie et al., 2021). As mentioned in the literature review section, mass immunisation is the idealistic approach to herd immunity. This can be done by increasing the vaccination rate, thereby rapidly lowering the overall virus spread in the population.
+The vaccination rate is also a critical input parameter of the model that plays a vital role in controlling the spread of diseases because the vaccine is a significant source of protective measures that can effectively stop viruses from transmitting one agent to another \cite{storlie2021quantifying}. As mentioned in the literature review section, mass immunisation is the idealistic approach to herd immunity. This can be done by increasing the vaccination rate, thereby rapidly lowering the overall virus spread in the population.
 According to the feature importance result shown in Figure 20, the importance of the immunity period and social distancing levels are marginal compared to the infectious period and the vaccination rate. However, synergies between them can further reduce the proportional number of sick agents. This idea can be supported by the results shown in Table 6 and 7, where the lowest proportional number of sick agents is obtained by the highest values of the immunity period, social distancing levels and vaccination rate. In contrast, the lowest values of those parameters resulted in the highest proportional number of sick agents. Furthermore, the total Sobol sensitivity indices for both the immunity period and the social distancing levels indicate significant values.
 As mentioned, vaccines are essential, and probably the best preventive measure humans have found so far. However, once an agent gets infected, the infection process cannot be stopped with vaccines because they are not made for a cure. Instead, this is where other preventive measures such as social distancing, quarantine or even lockdown play essential roles in
 55
@@ -375,7 +443,7 @@ The social distancing level is an essential input parameter that acts as a preve
 
 5.1 Limitations and Future Enhancements
 Although this work has produced some meaningful results, it still poses some limitations and suggestions for future research. Firstly, the population size of the simulation had to be limited to a small number, mainly due to the expensive computational cost and time. For instance, running the current model, which takes about 35 to 40 seconds per run for 10,000 times, often costs several days to execute. In order to fasten the process, these executions have been separated into multiple clusters on OpenMOLE but still took several hours to run. The simulation duration with the number of initial agents has been fixed to limit the overall processing time. For instance, one tick which was initially equivalent to a minute in the simulation has been changed so that one tick is now equal to an hour. As a result, it costs only 24 ticks per day, while the former version used to cost 1440 ticks for a day to pass. Due to this, the duration of a day has been shortened, reducing the number of interactions between the agents. As a result, it might have affected the outcome of a simulation.
-The current number of input parameters is limited to only four parameters. However, there can be more numbers of input parameters introduced in our model to generate more dynamic results which can better reflect real-life situations. Furthermore, the current model can be constructed with extra compartments that can describe various states of an agent in the infection process. If compartments such as death or exposure are added to the model, the states of an agent can further be categorised into a more significant number of states and make the overall dynamics of disease transmission rather sophisticated for an advanced result (Reyné, Saby and Sofonea, 2022). The model is also flexible in that it can add many more characteristics of agents, such as age, occupation, vaccination record and gender, which can be considered in the process of interaction and infection. This will generate much more interesting results than the current model because considering more factors during the infection process may provide more sophisticated results that help humans better understand the overall dynamics of epidemics.
+The current number of input parameters is limited to only four parameters. However, there can be more numbers of input parameters introduced in our model to generate more dynamic results which can better reflect real-life situations. Furthermore, the current model can be constructed with extra compartments that can describe various states of an agent in the infection process. If compartments such as death or exposure are added to the model, the states of an agent can further be categorised into a more significant number of states and make the overall dynamics of disease transmission rather sophisticated for an advanced result \cite{reyne2022principles}. The model is also flexible in that it can add many more characteristics of agents, such as age, occupation, vaccination record and gender, which can be considered in the process of interaction and infection. This will generate much more interesting results than the current model because considering more factors during the infection process may provide more sophisticated results that help humans better understand the overall dynamics of epidemics.
 
 
 
