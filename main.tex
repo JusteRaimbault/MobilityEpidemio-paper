@@ -10,7 +10,7 @@
 \title{Exploring and optimising infectious disease policies with a stylised agent-based model}
 %\subtitle{Do you have a subtitle?\\ If so, write it here}
 
-%\titlerunning{Short form of title}        % if too long for running head
+\titlerunning{Exploring and optimising infectious disease policies}        % if too long for running head
 
 \author{Jeonghwa Kang          \and
         Juste Raimbault
@@ -39,7 +39,35 @@ The quantitative study of the spread of infectious diseases is a crucial aspect 
 % medicine and physiology ; computational social sciences
 % Full paper (up to 12 pages): !!! - shorten
 
+% Review 1
+%The paper presents an agent-based model of covid-19 diffusion and its analysis by a set of parameter space exploration methods. The main contribution of the article is the application of a classical set of exploration methods for a model dedicated to covid-19. Indeed, in itself the proposed model does not bring much compared to existing models: compared to many more descriptive agent-based models, it relies on many simplifying assumptions limiting the realism of the model and compared to mathematical models (compartment model), it does not allow to scale up. In addition, there is no validation of the model using real data, which limits its interest for decision support. The model parameter space exploration is interesting as an exercise, but given the limitations of the model, it does not provide essential information about covid-19 or covid-19 interventions.
+%Some remarks:
+% - Page 3: "which this researchs ABM is based upon" -> Not sure to understand what it means
+% - Page 4: "Hence, the agents working in a big-sized companies are more likely to get infected than the agents working in mid and small-sized companies." -> Not sure about this hypothesis: if a large company has premises with a low density of people and well ventilated, the risk of contamination will be lower than in a small company but with cramped and poorly ventilated premises.
+% - Page 5: “An infected agent is then constantly introduced at a random location for the simulation's first month (30 days).” -> why integrating this dynamic?
+% - Page 5: “A certain number of people leave the area, and others come to stay in the area.” -> As the stylized model is already oversimplified, I am not sure to understand the interest of this dynamic.
+% - Page 5: “Infection rates are calculated based on the values of the global, patch and turtle variables.” -> It is better to avoid concepts coming from Netlogo that cannot be understood by people who are not familiar with this platform.
+% - Page 5: “ccar = 10%" -> there is an error here
+% - Page 6: “cBig = 40%, cMedium = 35%, cSmall = 30%"  -> explanation of values not very convincing.
+% - Page 6: “Furthermore, patients with cardiovascular diseases are known to be at high risk of getting an infection.” -> Is there a source for this? That having these diseases can increase the probability of severe symptoms, yes, that it influences the probability of infection, it is not sure.
+% - Page 6: “Mask & Cardio = 45%; No mask & Cardio = 15%;” -> there is an error here
+% - Page 6: “vaccines are the most effective preventive measure which can trigger a biological immune response to fight disease-causing organisms” -> The vaccine reduces the likelihood of severe symptoms. On the other hand, its effect on the number of contaminations is more debatable.
+% - Page 6: “The level of social distancing ranges from 1 to 3. Each level refers to a percentage value that reduces the contact rate by 5. Hence, the actual percentage value of the social distancing ranges from 5 to 15 percent.” -> This way of considering social distancing seems very abstract and provides little information about this type of intervention.
+% - Page 7: “The model is set to run over 125 times for every combination of the input parameter values, and the output parameters average values are obtained at the end." -> Why 125 replications?
+% - Page 10: Why using Random Forest algorithm?
+% - Most of Figures are too small and difficult to read.
 
+
+% Review 2
+% This paper presents an ABM for the spread of COVID-19 and shows how model parameters can be explored an optimized. Overall, I think this type of approach makes a lot of sense, and the sentivity analyses and multi-objective optimization are good additions to the commonly used approach for such models. The model is well explained. This being said, a number of problems remains:
+%- In the current model, the operationalization of transportation does not seem appropriate. It mimicks the fact that a group of agents (e.g., bus users) all gather in the same place for a few hours every day, which is really not how people use transportation. The modeling of car transportation is really the same as saying that people stay home. In reality, the transportation network is very structured (for example, someone might take the same bus line to go to work, and this bus might be very central or not in the network, etc.). It would be interesting to consider the influence of transportation if spatial structure was explicitely modeled, but this is not the case now.
+%- Another problem of the model is that it neglects household infections, although many studies have shown that they were very frequent.
+%- In general, there are two approches when using such ABMs. Either one wants to show that, in theory, a particular mechanism might exist (say, the structure of public transports might impact the spread of covid-19). In such case, one can use a very stylized model, focusing on this particular mechanism, without having to calibrate to real data. Another approach is to design a very realistic model, if possible calibrated with real data, in order to make predictions and carefully optimize interventions. The model presented here is very stylized, however it is not used to draw theoretical expectations but to train a model for prediction and find optimal parameter values. I don't think it is reasonable to expect such a model to produce anything more than some qualitative insights. For the analyses presented here, realistic and calibrated models should proabably be used.
+%- There are quite a few typos and grammar mistakes.
+
+
+% Review 3
+%Even if the paper could be considered as yet another model on Covid, it is very interesting from a methodological point of view concerning on one hand the articulation in between different types of models and on the other hand concerning the global research process that is clear and very well described. The comparison in between different tools and approaches available nowadays to study models more deeply (surrogate, sensitivity analysis, multi-objective model optimisation) are very interesting and will provide fruitful discussions at the conference.
 
 
 
@@ -67,12 +95,13 @@ The rest of this paper is organised as follows: we first describe the stylised a
 
 \subsection{Rationale}
 
-Our simulation model projects a real-life situation where agents commute from home to their designated workplaces via different modes of transportation on a fixed daily schedule. At the beginning of the simulation, the entire population is set to susceptible. Then, an infected agent is introduced daily for the first 30 days because if none of the infected agents gets introduced into the environment, the infection process does not happen. The model's output parameters include the number of agents associated within each state of the compartmental model upon which the ABM is based.
+Our simulation model projects a real-life situation where agents commute from home to their designated workplaces via different modes of transportation on a fixed daily schedule. At the beginning of the simulation, the entire population is set to susceptible. Then, an infected agent is introduced daily for the first 30 days because if none of the infected agents gets introduced into the environment, the infection process does not happen. The infection then spreads through localised interactions between agents.
 
 
 \subsection{Model setup and dynamics}
 
-The main interest of this research is investigating the effectiveness of various pre-defined model input parameters on spreading and controlling infectious diseases that result while the agents are commuting from home to the workplace. This model assumes that most human interactions occur while people travel and work. Hence, the scenario is primarily about people commuting from home to their designated workplaces via different modes of transportation, closely depicting ordinary people's daily routine. The simulation of this model considers several essential assumptions. The entire duration of the simulation is set to 365 days. Each day is equivalent to 24 ticks. Hence, each tick is equivalent to an hour. A single day comprises three pre-defined phases: the 'Home-hour', 'Commute-hour and 'Work-hour' phases, as show in Fig.~\ref{fig:modeltrans}.
+One main assumption of the model is that most human interactions occur while people travel and work ().% TODO home infection
+ Hence, the scenario is primarily about people commuting from home to their designated workplaces via different modes of transportation, closely depicting ordinary people's daily routine. The simulation of this model considers several essential assumptions. The entire duration of the simulation is set to 365 days. Each day is equivalent to 24 ticks. Hence, each tick is equivalent to an hour. A single day comprises three pre-defined phases: the 'Home-hour', 'Commute-hour and 'Work-hour' phases, as show in Fig.~\ref{fig:modeltrans}.
 
 \begin{figure}
 	\centering
@@ -129,7 +158,7 @@ For contact rates on work site, we therefore take the following values: $c_{Big}
 \subsubsection{Agent variables}
 
 
-The importance of wearing a mask while interacting with an infected agent can significantly reduce the chance of infection. Furthermore, patients with cardiovascular diseases are known to be at high risk of getting an infection. Due to these reasons, we have pre-defined values for infection risk rates based on the combination of these two variables: No mask \& Cardio = 50\% risk rate; Mask \& Cardio = 45\%; No mask \& Cardio = 15\%; Mask \& No Cardio = 10\%.
+The importance of wearing a mask while interacting with an infected agent can significantly reduce the chance of infection. Furthermore, patients with cardiovascular diseases are possibly with a higher risk of getting an infection \cite{ielapi2020cardiovascular}. Due to these reasons, we have pre-defined values for infection risk rates based on the combination of these two variables: No mask \& Cardio = 50\% risk rate; Mask \& Cardio = 45\%; No mask \& Cardio = 15\%; Mask \& No Cardio = 10\%.
 
 
 % not necessary
