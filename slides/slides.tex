@@ -5,7 +5,7 @@
 \begin{document}
 
 
-\title[Exploring and optimising infectious disease policies]{Exploring and optimising infectious disease policies with a stylised agent-based model}
+\title[ABM for infectious disease policies]{Exploring and optimising infectious disease policies with a stylised agent-based model}
 
 \author[Kang and Raimbault]{Jeonghwa Kang$^1$ and Juste Raimbault$^{2,1,\ast}$\\\medskip
 $^{\ast}$\texttt{juste.raimbault@ign.fr}
@@ -29,7 +29,7 @@ May 31st 2023
 \section{Introduction}
 
 
-\sframe{}{
+\sframe{Complexity of infectious disease policies}{
 
 %The impact of one of the fatal epidemics in history, the Black Death, has led to the death of almost one-third of the population of Europe, and the most recent epidemic in the world today, COVID-19, is currently costing millions of valuable human lives \cite{glatter2021history}. Before the introduction of mathematical and computational modelling, humans had little knowledge of effectively controlling and minimising the spread of infectious diseases. Furthermore, the importance of forecasting the spread of diseases in recent years has become even more crucial as the world is rapidly globalising and becoming closer with ever-advancing technologies that make it easier for humans to travel faster and further around the globe \cite{saker2004globalization}. Beyond the health disease of epidemics, many dimensions of social systems are affected, with for example broad economic impacts \cite{boucekkine2021economics}. The current world is a highly complex systems in which various factors will play a role in decision-making \cite{bickley2021does}. Designing disease control strategies imply accounting for various interacting factors and finding a compromise between multiple objectives \cite{kaszowska2022immunity}.
 %The first modelling approach to disease spreading was in the 17th century as John Graunt  conducted an empirical study on infections affecting individuals in various regions in Britain \cite{morabia2013epidemiology}. Bernouilli introduced in the 18th century an equation-based approach to studying the outbreak of the smallpox epidemic in Europe \cite{dietz2002daniel}. Most recent modelling approaches range from elaborated mathematical models to data-driven microsimulation models. The recent pandemic has shown the usefulness of quantitative modelling to evaluate policies, such as how to vaccinate the population \cite{bosetti2022epidemiology} or to evaluate which degree of lockdown is necessary.
@@ -54,11 +54,12 @@ $\rightarrow$ agent-based modelling as a flexible and generic modelling tool par
 
 
 
-\sframe{}{
+\sframe{Research question}{
 
 % We propose in this paper to explore the potential of agent-based modeling to design and optimise epidemiological policies. We introduce a stylised model for the spread of infectious diseases, which is hybrid in the sense that it lies halfway large data-driven models and abstract theoretical models. We account for geographical factors, in particular commuting and workplaces. We focus, as an illustration, for two policy factors, which are social distancing and face masks \cite{kwon2021association}, and vaccination \cite{bicher2022model}. Our main contribution is the application of state-of-the-art model sensitivity analysis and validation techniques \cite{raimbault2019methods} to such a stylised model, opening research perspectives to cases where data is lacking, model parametrisation is uncertain, or actors have not the ressources to implement a large scale model, but where accounting for spatial and social structure remains crucial.
 % A few examples of the application of such techniques to epidemiological models can be found in the literature. \cite{baquela2022optimising} utilise a multi-objective optimisation algorithm for the distribution of limited vaccines resources. \cite{wu2013sensitivity} review sensitivity analysis of infectious disease models. No systematic application of an umbrella of model validation methods can however be found.
 
+\bigskip
 
 $\rightarrow$ validation, exploration and sensitivity analysis of ABMs and other approaches not frequent in the literature \cite{baquela2022optimising}\cite{wu2013sensitivity}
 
@@ -66,7 +67,6 @@ $\rightarrow$ validation, exploration and sensitivity analysis of ABMs and other
 
 $\rightarrow$ how can extensive model validation techniques be used for stylised models?
 
-\bigskip
 \bigskip
 \bigskip
 
@@ -124,28 +124,35 @@ $\rightarrow$ how can extensive model validation techniques be used for stylised
 %No discrete values define the accurate contact rates for different modes of transportation, but the general assumption was made based on the understanding that the lower the capacity of transportation, the higher the density; hence, the higher contact rates between the passengers. The contact rate specifically for the car is set to zero because it is assumed that an agent who commutes by a car makes no contact with other agents during the 'Commute- hour' phase. The same logic was applied when defining the contact rates for different companies. The assumption was based on the understanding that the bigger the company size, the more the agents interact.
 %For contact rates on work site, we therefore take the following values: $c_{Big} = 40\%$, $c_{Medium} = 35\%$, $c_{Small} = 30\%$
 %\subsubsection{Agent variables}
-%The importance of wearing a mask while interacting with an infected agent can significantly reduce the chance of infection. Furthermore, patients with cardiovascular diseases are known to be at high risk of getting an infection. Due to these reasons, we have pre-defined values for infection risk rates based on the combination of these two variables: No mask \& Cardio = 50\% risk rate; Mask \& Cardio = 45\%; No mask \& Cardio = 15\%; Mask \& No Cardio = 10\%.
+%The importance of wearing a mask while interacting with an infected agent can significantly reduce the chance of infection. Furthermore, patients with cardiovascular diseases are known to be at high risk of getting an infection \cite{ielapi2020cardiovascular}. Due to these reasons, we have pre-defined values for infection risk rates based on the combination of these two variables: No mask \& Cardio = 50\% risk rate; Mask \& Cardio = 45\%; No mask \& Cardio = 15\%; Mask \& No Cardio = 10\%.
 
 \textbf{Global variables: } stylised contact rates for transport $c_{bus} = 40\%$, $c_{metro} = 35\%$, $c_{train} = 30\%$, $c_{walk} = 10\%$, $c_{car} = 10\%$ and companies $c_{Big} = 40\%$, $c_{Medium} = 35\%$, $c_{Small} = 30\%$
 
 \bigskip
 \bigskip
 
+\textbf{Agent variables: } higher infection rate for cardio-vascular sick individuals \cite{ielapi2020cardiovascular}
 
+$\rightarrow$ predefined infection risk rates depending on agent characteristics: No mask \& Cardio = 50\% risk rate; Mask \& Cardio = 45\%; No mask \& Cardio = 15\%; Mask \& No Cardio = 10\%
 
 
 }
 
 \sframe{Model parameters and indicators}{
 
-%\begin{itemize}
-%	\item Infectious period, ranging from 2 to 4 weeks; the longevity of the infectious period of an agent is believed to play an essential role in the spread of diseases because the longer the infected agent stays contagious, the more the chance of infection during an extended amount of time \cite{wilkinson2018impact}.
-%	\item Immunity period, ranging from 9 to 11 months. This is selected as one of the model’s input parameters because it is believed to play a vital role in protecting the agents from infection \cite{reyes2016modeling}. Hence, we are interested to know to what extent the immunity period significantly affects the spread of diseases.
-%	\item Vaccination rate: as discussed in the literature review, vaccines are the most effective preventive measure which can trigger a biological immune response to fight disease-causing organisms. The value ranges from 0 to 0.5 \%, meaning from 0 to 0.5 \% of the susceptible population is set to be vaccinated daily. A high vaccination rate is strongly believed to be the key to the successful control of epidemics; hence, finding out the impacts of different vaccination rates on the overall infection process would be meaningful.
-%	\item Social distancing level: a certain level of social distancing is being applied by governments worldwide, hoping to stop the spread of diseases like COVID-19. However, the effect of social distancing is not yet well known. Due to this, it would be an interesting experiment to find out the effectiveness of such measures on disease transmission dynamics. The level of social distancing ranges from 1 to 3. Each level refers to a percentage value that reduces the contact rate by 5. Hence, the actual percentage value of the social distancing ranges from 5 to 15 percent. The higher the intensity of social distancing, the lesser the chance people contact each other.
-%\end{itemize}
+\textbf{Model parameters explored:}
 
-%\subsection{Model indicators}
+\begin{itemize}
+	\item Infectious period (2-4 weeks)
+	\item Immunity period (9-11 months)
+	\item Vaccination rate
+	\item Social distancing level (3 levels, each reducing contact rate by 5\%)
+\end{itemize}
+
+\bigskip
+
+\textbf{Model indicators: } agents in each state, cumulated infections and vaccinations.
+
 %As mentioned previously, the ABM is constructed under the concept of the SIRV compartmental model. Therefore, the indicators consist of proportional numbers of agents in each compartment, including susceptible, infected, recovered, and vaccinated.
 
 
@@ -157,10 +164,22 @@ $\rightarrow$ how can extensive model validation techniques be used for stylised
 
 \sframe{Model implementation and exploration}{
 
-%The model is implemented in NetLogo, which is a reasonable choice for such hybrid models in which visualisation is important. It is integrated into the OpenMOLE platform for model exploration \cite{reuillon2013openmole} to carry out the numerical experiments described below. Source code of the model and exploration scripts are openly available on a git repository at \texttt{https://github.com/henry-kang-7/CASA0004}.
+%The model is implemented in NetLogo, which is a reasonable choice for such hybrid models in which visualisation is important. It is integrated into the OpenMOLE platform for model exploration \cite{reuillon2013openmole} to carry out the numerical experiments described below. Source code of the model and exploration scripts are openly available on a git repository at \texttt{}.
 %The pre-defined input parameter values of the model are the following: infectious-period $\in \{ 2, 3, 4 )\}$ (weeks); immunity-period $\in \{ 4, 5, 6  )\}$ (months); vaccination-rate $\in \{ 0, 0.25, 0.5 \}$ (\%); social-distancing-levels $\in \{1, 2, 3\}$ (levels).
 %This results in 81 different combinations of the input parameter values for a grid sampling. The model is set to run over 125 times for every combination of the input parameter values, and the output parameters’ average values are obtained at the end.
 
+$\rightarrow$ model implemented in NetLogo (role of visualisation and interactivity in the model construction process)
+
+\bigskip
+
+$\rightarrow$ embedded into the OpenMOLE platform for model exploration and validation \cite{reuillon2013openmole}
+
+\begin{center}
+	\includegraphics[height=0.1\textheight]{iconOM}
+	\includegraphics[height=0.1\textheight]{openmole}
+\end{center}
+
+$\rightarrow$ 4 dimensions parameter space explored through numerical experiments
 
 }
 
@@ -172,9 +191,12 @@ $\rightarrow$ how can extensive model validation techniques be used for stylised
 %The boxplots presented in Fig.~\ref{fig:agenttypedistrib} show different data ranges and medians of the four different output parameters of the model. The boxplot representing the ‘ProportionImmune’ appears to have the highest median among the groups, followed by the ‘ProportionSick’, ‘ProportionSusceptible’ and ‘ProportionVaccinated’, respectively. Outliers in the boxplots are present regarding the ‘ProportionSusceptible’ and ‘ProportionVaccinated’. Based on the histograms shown in Fig.~\ref{fig:histograms}, these distributions have positive kurtosis values and are disproportionally distributed, indicating low standard deviation; hence, high chance of producing outliers.
 
 \includegraphics[width=0.49\linewidth]{../figures/histograms.png}
-
 \includegraphics[width=0.49\linewidth]{../figures/agentTypeDistrib.png}
 
+\bigskip
+\bigskip
+
+LHS sampling (10,000 points) to study statistical properties of model indicators: skewed distributions (Left), distributions of the proportion of agents in each state (Right)
 
 }
 
@@ -187,9 +209,12 @@ $\rightarrow$ how can extensive model validation techniques be used for stylised
 %An OLS regression with the simulated data shows that the spread of infection mainly depends on the longevity of the infectious period. The longevity of the infectious period plays a vital role in disease transmission because a more extended infectious period allows an infected agent to interact with a more significant number of susceptible agents for an extended time. For example, an infected agent who is infectious for a single day is unlikely to infect a more significant number of susceptible agents than an infected agent who is infectious for a week. A more extended infectious period is, therefore, a dangerous factor that may rapidly increase the chances of infections, often creating a mass infection wave.
 
 \includegraphics[width=0.49\linewidth]{../figures/boxplots.png}
-
 \includegraphics[width=0.49\linewidth]{../figures/correlations.png}
 
+\bigskip
+\bigskip
+
+Grid exploration of 81 parameter points (125 stochastic repetitions for each): various amplitude of parameter influence (Left), confirmed with an OLS regression, and correlation matrix of model inputs and outputs (Right)
 
 }
 
@@ -201,10 +226,13 @@ $\rightarrow$ how can extensive model validation techniques be used for stylised
 %We obtain a MAE (how big of an error we can expect from the forecast on average) of 0.001, which implies that the average errors between the predicted and actual values are marginal; hence, the predictions are considered highly accurate. Moving on to the MAPE, the value of 0.363 indicates that, on average, the forecast is off by 0.363\%. This means that the accuracy of the forecast is as high as 99.637\%. Lastly, the value of the RMSE is also 0.001, which indicates that the difference between the predicted and actual values is marginal.
 %The random forest model is furthermore useful to quantify the importance of the model’s input parameters, shown in Fig.~\ref{fig:randomForest}. The ‘infectiousPeriod’ is by far the most significant input parameter of the model, with a value of approximately 0.75. Followed by the ‘vaccinationRate’ with a value of slightly over 0.1. The ‘immunityPeriod’ and the ‘socialDistancingLevels’ had an importance rate below 0.1, which were not as significant as the previous two.
 
-\centering
-\includegraphics[width=0.5\linewidth]{../figures/randomForest.png}
+\begin{center}
+   \includegraphics[width=0.45\linewidth]{../figures/randomForest.png}
+\end{center}
 
-\textit{Feature importance of input parameters obtained with the random forest surrogate.}
+\bigskip
+
+Random forest model surrogate trained on LHS simulation data (performance: MAE=0.001): feature importance of input parameters.
 
 }
 
@@ -214,7 +242,7 @@ $\rightarrow$ how can extensive model validation techniques be used for stylised
 %The total-order indices shown above indicate that the ‘infectiousPeriod’ has the most significant impact on the values of the ‘ProportionSick’ followed by the ‘vaccinationRate’, ‘socialDistancingLevels’ and ‘immunityPeriod’ respectively. We find a very low effect of the immunity period on the proportion of sick and susceptible, meaning that uncertainties on this value will have a limited impact. The vaccination rate is also a critical input parameter of the model that plays a vital role in controlling the spread of diseases because the vaccine is a significant source of protective measures that can effectively stop viruses from transmitting one agent to another \cite{storlie2021quantifying}.
 
 \begin{table}
-%\caption{Saltelli total order indices}
+\resizebox{\textwidth}{!}{
 \begin{tabular}{|c|c|c|c|c|}
 Outputs & infectiousPeriod & immunityPeriod & vaccinationRate & socialDistancingLevels\\
 ProportionImmune & 0.72 & 0.333 & 0.665 & 0.7\\
@@ -222,7 +250,14 @@ ProportionSick & 0.692 & 0.09 & 0.365 & 0.143\\
 ProportionVaccinated & 0.516 & 0.319 & 0.587 & 0.337\\
 ProportionSusceptible & 0.341 & 0.066 & 0.92 & 0.277\\
 \end{tabular}
+}
 \end{table}
+
+\bigskip
+\bigskip
+
+Saltelli total order indices \cite{saltelli2008global} to quantify parameters' influence on model indicators.
+
 
 }
 
@@ -238,12 +273,11 @@ ProportionSusceptible & 0.341 & 0.066 & 0.92 & 0.277\\
 
 
 \includegraphics[width=0.49\linewidth]{../figures/pareto.png}
-% Pareto front of proportion of sick vs. vaccination rate.
-
 \includegraphics[width=0.49\linewidth]{../figures/pareto2.png}
-% Pareto front of proportion of sick vs. social distancing levels.
 
+\bigskip
 
+NSGA2 bi-objective optimisation to find compromise points between disease burden and vaccination (cost): Pareto front of proportion of sick vs. social distancing levels (Left), and corresponding points on other objectives (Right).
 
 }
 
@@ -258,33 +292,19 @@ ProportionSusceptible & 0.341 & 0.066 & 0.92 & 0.277\\
 %As a future work, regarding the stylised parametrisation taken here for several aspects of model setup, a more advanced sensitivity analysis relaxing these parameters could be done. More particularly, quantifying the role of geography (transport geography, but also company size distribution and locations), is an interesting prospect, as new methods to achieve this have recently been developed \cite{raimbault2019space}.
 
 
-
-\justify
-
-\textbf{}
-
-\smallskip
-
-$\rightarrow$ 
+$\rightarrow$ proof-of-concept of how model exploration and validation can compensate for parameter uncertainty and the lack of data
 
 \medskip
 
-$\rightarrow$ 
-
-
-
-\bigskip
-
-\textbf{}
-
-\smallskip
-
-
-$\rightarrow$ 
+$\rightarrow$ open question: transfer to policy scenarios, which practical validated insights from such hybrid approaches
 
 \medskip
 
-$\rightarrow$ 
+$\rightarrow$ model can be refined in several ways (e.g. agent states, more characteristics)
+
+\medskip
+
+$\rightarrow$ sensitivity to geography and to the company setup \cite{raimbault2019space} to be explored
 
 
 }
@@ -299,11 +319,11 @@ $\rightarrow$
 
 \justify
 
-$\rightarrow$ 
+$\rightarrow$ a simple and stylised ABM based on SIRV accounting for geography and commuting
 
 \medskip
 
-$\rightarrow$ 
+$\rightarrow$ systematic exploration and sensitivity analysis: prospects on how to design and optimise health policies in cases where data or modelling resources are lacking
 
 
 \bigskip
@@ -314,7 +334,7 @@ $\rightarrow$
 \textbf{Open repository}
 
 
-\url{https://github.com/} 
+\url{https://github.com/henry-kang-7/CASA0004} 
 
 
 
